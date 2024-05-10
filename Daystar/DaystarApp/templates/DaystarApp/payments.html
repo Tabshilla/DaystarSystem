@@ -1,0 +1,30 @@
+
+{% extends "DaystarApp/base.html" %}
+
+{% block body %}
+<h3 class="text-center m-4">Make Payment</h3>
+{% if success %}
+<div class="alert alert-success" role="alert">
+    Payment made successfully
+    <a href= "{% url 'index' %}" class="alert-link">Go to Home Page</a>
+</div>
+{% else %}
+   <div class='row justify-content-center'>
+    <div class='col-md-6'>
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                <i class="fa-solid fa-address-card fa-lg"></i>Sitters Payments
+            </div>
+            <div class="card-body">
+              <form action="{% url 'payment' %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Make Payment</button>
+                <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+
+              </form>
+            </div>
+   </div>
+{% endif %}
+
+{% endblock  %}

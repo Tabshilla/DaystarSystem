@@ -1,0 +1,36 @@
+{% extends "DaystarApp/base.html" %}
+
+{% block content %}
+    <h1>LIST OF PAYMENTS MADE
+    </h1>
+    <div class="container-fluid">
+    
+    <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th scope="col">S_name</th>
+            <th scope="col">amount</th>
+            <th scope="col">payment_type</th>
+            <th scope='col'>date_of_payment</th>
+            <th scope="col">ACTION</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for Payment in payments %}
+          <tr>
+            <th scope="row">1</th>
+            <td>{{ Payment.S_name }}</td>
+            <td>{{ Payment.amount }}</td>
+            <td>{{ Payment.payment_type }}</td>
+            <td>{{ Payment.date_of_payment }}</td>
+            
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    
+    
+    
+    {% endblock content  %}

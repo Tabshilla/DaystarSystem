@@ -1,0 +1,274 @@
+{% extends "DaystarApp/base.html" %}
+
+{% block body %}
+<h3 class="m-4">All Babies</h3>
+<div class="row">
+    <div class="col-12">
+        {% if babies %}
+        <div class="card bg-light ms-4 me-4 mb-4">
+            <div class="card-header">
+                <i class="fa-solid fa-list fa-lg">Babies Records</i>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            
+                            <th scope="col">B_name</th>
+                            <th scope="col">c_stay</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">age</th>
+                            <th scope="col">location</th>
+                            <th scope="col">fathers_name</th>
+                            <th scope="col">mothers_name</th>
+                            <th scope="col">mothers_phone</th> 
+                            <th scope="col">fathers_phone</th>
+                            <th scope="col">brought_by</th>
+                            <th scope="col">timeIn</th>
+                            <th scope="col">timeOut</th>
+                            <th scope="col">baby_number</th>
+                            <th scope="col">assign</th>
+                            <th scope="col">Actions</th>
+
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for Baby in babies %}
+                          <tr>
+                            <td>{{ Baby.B_name }}</td>
+                            <td>{{ Baby.c_stay }}</td>
+                            <td>{{ Baby.age }}</td>
+                            <td>{{ Baby.Gender }}</td>
+                            <td>{{ Baby.fathers_name }}</td>
+                            <td>{{ Baby.mothers_name }}</td>
+                            <td>{{ Baby.fathers_phone }}</td>
+                            <td>{{ Baby.mothers_phone }}</td>
+                            <td>{{ Baby.location }}</td>
+                            <td>{{ Baby.brought_by }}</td>
+                            <td>{{ Baby.baby_number }}</td>
+                            <td>{{ Baby.timeIn }}</td>
+                            <td>{{ Baby.timeOut }}</td>
+                            <td>{{ Baby.assign }}</td>
+                          <td>
+                            <button type="button" class="btn btn-success me-1" href="{% url 'view_baby' Baby.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{Baby.id}}">
+
+                              <i class="fa-solid fa-circle-info fa-lg"></i>
+                            </button> 
+                            <!--Model-view baby-->
+                            <div class="modal"id= "myModal{{baby.id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true" >
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">
+                                      Baby: {{ Baby.B_name }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true"></span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <ul class="list-unstyled">
+                                      <li>baby_number:<strong>{{ Baby.baby_number }}</strong> </li>
+                                      <li>B_name:<strong>{{ Baby.B_name }}</strong> </li>
+                                      <li>c_stay:<strong>{{ Baby.c_stay }}</strong> </li>
+                                      <li>Gender:<strong>{{ Baby.Gender }}</strong> </li>
+                                      <li>age:<strong>{{ Baby.age  }}</strong> </li>
+                                      <li>location:<strong>{{ Baby.location }}</strong> </li>
+                                      <li>brought_by:<strong>{{ Baby.brought_by }}</strong> </li>
+                                      <li>timeIn:<strong>{{ Baby.timeIn }}</strong> </li>
+                                      <li>timeOut:<strong>{{ Baby.timeOut }}</strong> </li>
+                                      <li>assign:<strong>{{ Baby.assign }}</strong> </li>
+                                      <li>fathers_name:<strong>{{ Baby.fathers_name }}</strong> </li>
+                                      <li>mothers_name:<strong>{{ Baby.mothers_name }}</strong> </li>
+                                      <li>fathers_phone:<strong>{{ Baby.fathers_phone }}</strong> </li>
+                                      <li>mothers_phone:<strong>{{ Baby.mothers_phone }}</strong> </li>
+                                    
+
+                                    </ul>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <a class="btn btn-warning me-1"  href="{% url 'edit' Baby.id %}">
+                              <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                            </a>
+                          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{baby.id}}">
+                            <i class="fa-solid fa-trash fa-lg"></i>
+                          </button>
+
+
+                      <!--Modal Delete Baby-->
+                      <div class="modal"id= "delete{{baby.id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true" >
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">
+                                Baby: {{ Baby.B_name }}
+                              </h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"></span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <p>
+                                Are you sure you want to delete the Baby
+                              </p>
+                    
+                            </div>
+                            <div class="modal-footer">
+                              <form action="{% url 'delete' Baby.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-primary" value="Delete">
+                              </form>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                          </div>
+                      
+
+                          </td>
+
+
+                          </tr>
+                          {%  endfor %}
+                          
+                        </tbody>
+                      </table>
+                </div>
+              </p>
+        {% else %}
+        <h5 class="alert alert-primary ms-4 me-4">No Baby Records</h5>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+<!--Sittter Table-->
+<h3 class="m-4">All Sitters</h3>
+<div class="row">
+    <div class="col-12">
+        {% if sitters %}
+        <div class="card bg-light ms-4 me-4 mb-4">
+            <div class="card-header">
+                <i class="fa-solid fa-list fa-lg">Sitters Records</i>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S_name</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">next_of_kin</th>
+                                    <th scope="col">location</th>
+                                    <th scope="col">recommenders_name</th>
+                                    <th scope="col">religion</th>
+                                    <th scope="col">NIN</th> 
+                                    <th scope="col">education_level</th>
+                                    <th scope="col">contact</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for Sitter in sitters %}
+                                <tr>
+                                    <td>{{ Sitter.S_name }}</td>
+                                    <td>{{ Sitter.Gender }}</td>
+                                    <td>{{ Sitter.next_of_kin }}</td>
+                                    <td>{{ Sitter.location }}</td>
+                                    <td>{{ Sitter.recommenders_name }}</td>
+                                    <td>{{ Sitter.religion }}</td>
+                                    <td>{{ Sitter.NIN }}</td>
+                                    <td>{{ Sitter.education_level }}</td>
+                                    <td>{{ Sitter.contact }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success me-1" href="{% url 'view_sitter' Sitter.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{Sitter.id}}">
+                                            <i class="fa-solid fa-circle-info fa-lg"></i>
+                                        </button>
+                                        <!-- Model-view sitter -->
+                                        <div class="modal" id="myModal{{ Sitter.id }}" tabindex="-1" aria-labelledby="myModalLabel{{ Sitter.id }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="myModalLabel{{ Sitter.id }}">
+                                                            Sitter: {{ Sitter.S_name }}
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <ul class="list-unstyled">
+                                                            <li>S_name:<strong>{{ Sitter.S_name }}</strong> </li>
+                                                            <li>Gender:<strong>{{ Sitter.Gender }}</strong> </li>
+                                                            <li>next_of_kin:<strong>{{ Sitter.next_of_kin }}</strong> </li>
+                                                            <li>location:<strong>{{ Sitter.location }}</strong> </li>
+                                                            <li>recommenders_name:<strong>{{ Sitter.recommenders_name }}</strong> </li>
+                                                            <li>religion:<strong>{{ Sitter.religion}}</strong> </li>
+                                                            <li>NIN:<strong>{{ Sitter.NIN }}</strong> </li>
+                                                            <li>education_level:<strong>{{ Sitter.education_level }}</strong> </li>
+                                                            <li>contact:<strong>{{ Sitter.contact }}</strong> </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-warning me-1" href="{% url 'editsitter' Sitter.id %}">
+                                            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{ Sitter.id }}">
+                                            <i class="fa-solid fa-trash fa-lg"></i>
+                                        </button>
+                                        <!-- Modal Delete sitter -->
+                                        <div class="modal" id="delete{{ Sitter.id }}" tabindex="-1" aria-labelledby="myModalLabel{{ Sitter.id }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="myModalLabel{{ Sitter.id }}">
+                                                            Sitter: {{ Sitter.S_name }}
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            Are you sure you want to delete the Sitter
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{% url 'deletesitter' Sitter.id %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <input type="submit" class="btn btn-primary" value="Delete">
+                                                        </form>
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </p>
+            </div>
+        </div>
+         {% else %}
+       <h5 class="alert alert-primary ms-4 me-4">No Sitter Records</h5> 
+         {% endif %} 
+    </div>
+</div>
+
+{% endblock body %}
